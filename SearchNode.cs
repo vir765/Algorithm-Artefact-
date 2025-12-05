@@ -32,9 +32,25 @@ namespace Assessment
             Score = score;
             Predecessor = pred;
         }
+
+        // This then makes node comparison work based on coordinates
+        public override bool Equals(object? obj)
+        {
+            if (obj is not SearchNode other)
+                return false;
+
+            return Position.Row == other.Position.Row &&
+                   Position.Col == other.Position.Col;
+        }
+
+        // This makes Contains() work properly
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Position.Row, Position.Col);
+        }
     }
 
-    // This has small helper methods used by the algorithms
+    // This has helper methods used by the algorithms
     public static class SearchUtilities
     {
         // This then builds the path by following predecessors backwards
@@ -55,7 +71,8 @@ namespace Assessment
         // This works out the Manhattan distance
         public static int ManhattanDistance(Coord current, Coord goal)
         {
-            return Math.Abs(current.Row - goal.Row) + Math.Abs(current.Col - goal.Col);
+            return Math.Abs(current.Row - goal.Row) +
+                   Math.Abs(current.Col - goal.Col);
         }
 
         // This then gets the neighbours in N, E, S, W order
@@ -63,9 +80,9 @@ namespace Assessment
         {
             return new Coord[]
             {
-                new Coord(pos.Row - 1, pos.Col),     // North
+                new Coord(pos.Row - 1, pos.Col), // North
                 new Coord(pos.Row,     pos.Col + 1), // East
-                new Coord(pos.Row + 1, pos.Col),     // South
+                new Coord(pos.Row + 1, pos.Col), // South
                 new Coord(pos.Row,     pos.Col - 1)  // West
             };
         }

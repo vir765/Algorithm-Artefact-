@@ -45,7 +45,7 @@ namespace Assessment
                 _ => Algorithm.BreadthFirst
             };
 
-            // This then creates the appropriate pathfinder object
+            // This then creates the pathfinder object
             PathFinderInterface pathfinder =
                 PathFinderFactory.NewPathFinder(selectedAlg);
 
